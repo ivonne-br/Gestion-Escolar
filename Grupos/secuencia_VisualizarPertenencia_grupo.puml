@@ -1,0 +1,33 @@
+@startuml Visualización de Pertenencia de Grupo
+
+actor Alumno
+actor Tutor
+
+participant "VentanaVisualizacionGrupo" as VV
+participant "ControlVisualizacionPertenencia" as CVP
+participant "Grupo" as GR
+participant "Alumno" as AL
+
+== Acceso al sistema ==
+Alumno -> VV : Inicia sesión
+Tutor -> VV : Inicia sesión
+
+== Solicita pertenencia ==
+Alumno -> VV : Selecciona "Ver grupo"
+Tutor -> VV : Selecciona "Ver grupo"
+
+VV -> CVP : solicitarGrupoAlumno(idAlumno)
+
+== Consulta de pertenencia ==
+CVP -> AL : verificarAsignacionGrupo(idAlumno)
+AL --> CVP : idGrupo (si existe)
+
+alt Alumno no asignado
+    CVP -> VV : Mostrar mensaje "El alumno aún no ha sido asignado a un grupo"
+else
+    CVP -> GR : obtenerDatosGrupo(idGrupo)
+    GR --> CVP : nivel, grado, letra, profesor
+    CVP -> VV : Mostrar información del grupo
+end
+
+@enduml

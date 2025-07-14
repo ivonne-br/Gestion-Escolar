@@ -1,0 +1,21 @@
+@startuml grupos
+skinparam actorStyle awesome
+actor Profesor #transparent;line:cornflowerblue;line.bold;text:black
+actor Alumno #transparent;line:lightcoral;line.bold;text:black
+actor Administrador #transparent;line:teal;line.bold;text:black
+actor Tutor #transparent;line:darkmagenta;line.bold;text:black
+
+package Grupos {
+  usecase "Asignar Grupo" as CU4
+  usecase "Visualizar Grupos" as CU5
+  usecase "Visualizar Pertenencia a Grupo" as CU6
+  usecase "Modificar Grupo" as CU7
+}
+
+Profesor --> CU5
+Profesor --> CU7
+Alumno --> CU6
+Tutor --> CU6
+Administrador --> CU4
+Administrador --> CU5
+@enduml

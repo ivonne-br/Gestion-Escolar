@@ -1,0 +1,56 @@
+@startuml Visualización de Calificación
+
+actor Administrador
+actor Profesor
+actor Alumno
+actor Tutor
+
+participant "VentanaCalificaciones" as VC
+participant "ControlVisualizacionCalif" as CVC
+participant "Calificacion" as CAL
+participant "Alumno" as AL
+participant "Grupo" as GR
+
+== Acceso ==
+Administrador -> VC : Accede al módulo de Calificaciones
+Profesor -> VC : Accede al módulo de Calificaciones
+Alumno -> VC : Accede al módulo de Calificaciones
+Tutor -> VC : Accede al módulo de Calificaciones
+
+== Selección ==
+VC -> CVC : solicitarVisualización(actor)
+
+alt Actor = Profesor
+    CVC -> GR : obtenerGruposAsignados(profesor)
+    GR --> CVC : lista de grupos
+    CVC -> VC : Mostrar selección de grupo
+    Profesor -> VC : Selecciona grupo
+
+    VC -> CVC : solicitarCalificacionesGrupo(grupo)
+
+elseif Actor = Administrador
+    CVC -> GR : obtenerTodosLosGrupos()
+    GR --> CVC : lista de grupos
+    CVC -> VC : Mostrar selección
+    Administrador -> VC : Selecciona grupo o alumno
+    VC -> CVC : solicitarCalificaciones()
+
+elseif Actor = Alumno
+    CVC -> AL : obtenerCalificacionesAlumno(idAlumno)
+
+elseif Actor = Tutor
+    CVC -> AL : obtenerAlumnoVinculado(tutor)
+    CVC -> AL : obtenerCalificacionesAlumno(idAlumno)
+end
+
+== Consulta calificaciones ==
+CVC -> CAL : consultarCalificaciones(idGrupo, idAlumno)
+
+alt No hay calificaciones registradas
+    CVC -> VC : Mostrar "No hay calificaciones disponibles"
+else
+    CAL --> CVC : lista de calificaciones
+    CVC -> VC : Mostrar calificaciones
+end
+
+@enduml

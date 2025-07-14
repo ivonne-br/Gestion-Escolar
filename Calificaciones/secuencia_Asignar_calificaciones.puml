@@ -1,0 +1,36 @@
+@startuml Asignar Calificación
+
+actor Profesor
+participant "VentanaCalificaciones" as VC
+participant "ControlCalificaciones" as CC
+participant "Grupo" as GR
+participant "Materia" as MA
+participant "Alumno" as AL
+participant "Calificacion" as CAL
+
+== Acceso ==
+Profesor -> VC : Accede al módulo de Calificaciones
+
+== Selección ==
+VC -> CC : seleccionarGrupoMateria(grupo, materia, periodo)
+CC -> GR : validarGrupoProfesor(grupo, profesor)
+CC -> MA : validarMateriaAsignada(materia, profesor)
+CC -> GR : obtenerAlumnos(grupo)
+GR --> CC : lista de alumnos
+CC -> VC : Mostrar lista de alumnos
+
+== Captura ==
+Profesor -> VC : Ingresa calificación final por alumno
+VC -> CC : registrarCalificacion(idAlumno, idMateria, periodo, calificacion)
+
+== Validación ==
+CC -> CAL : validarRango(calificacion)
+
+alt Calificación fuera de rango
+    CC -> VC : Mostrar "La calificación debe estar entre n-m"
+else
+    CC -> CAL : registrar(idAlumno, idMateria, periodo, calificacion)
+    CC -> VC : Mostrar "Calificación registrada"
+end
+
+@enduml

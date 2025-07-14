@@ -1,0 +1,25 @@
+@startuml Ver Historial del Estudiante
+
+actor "Alumno/Tutor/Administrador" as Actor
+participant "VentanaHistorial" as VH
+participant "ControlHistorial" as CH
+participant "ModeloHistorial" as MH
+
+== Acceso al módulo ==
+Actor -> VH : Accede al módulo "Informe de Estudiante"
+
+== Selección de alumno ==
+VH -> CH : seleccionarAlumno(idAlumno)
+CH -> MH : verificarPermisos(Actor, idAlumno)
+MH --> CH : Permiso válido
+
+CH -> MH : obtenerHistorial(idAlumno)
+MH --> CH : historial[] o vacío
+
+alt Historial vacío
+    CH -> VH : Mostrar "No hay historial disponible para este alumno"
+else
+    CH -> VH : Mostrar historial organizado cronológicamente
+end
+
+@enduml

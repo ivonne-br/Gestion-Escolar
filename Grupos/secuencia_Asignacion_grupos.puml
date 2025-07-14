@@ -1,0 +1,55 @@
+@startuml Asignar Grupo
+
+actor Administrador
+participant "AsignacionGrupoVentana" as IG
+participant "ControlAsignacion" as CA
+participant "Grupo" as GR
+participant "Alumno" as AL
+participant "Profesor" as PR
+participant "Asignacion" as AS
+
+== Inicio ==
+Administrador -> IG : Accede al módulo Asignación de Grupo
+
+== Selección de grupo ==
+IG -> CA : seleccionarGrupo(nivel, grado, letra)
+CA -> GR : validarGrupoActivo(idGrupo)
+GR --> CA : resultado de validación
+
+alt Grupo no válido
+    CA -> IG : Mostrar mensaje de error
+end
+
+== Consulta de listas ==
+CA -> AL : obtenerAlumnosDisponibles()
+AL --> CA : lista de alumnos
+
+CA -> PR : obtenerProfesoresDisponibles()
+PR --> CA : lista de profesores
+
+== Asignación ==
+IG -> CA : asignar(grupo, listaAlumnos, profesor)
+
+loop Por cada alumno seleccionado
+    CA -> AS : validarDisponibilidadAlumno(idAlumno)
+    
+    alt Alumno ya asignado
+        CA -> IG : Notificar "Alumno ya asignado"
+    else
+        CA -> AS : registrarAsignacion(grupo, idAlumno)
+    end
+end
+
+== Asignación de profesor ==
+CA -> AS : validarDisponibilidadProfesor(idProfesor)
+
+alt Profesor ya asignado
+    CA -> IG : Notificar "Profesor ya asignado"
+else
+    CA -> AS : registrarAsignacion(grupo, idProfesor)
+end
+
+== Confirmación ==
+CA -> IG : Mostrar mensaje "Asignación exitosa"
+
+@enduml

@@ -1,0 +1,22 @@
+@startuml informe estudiante
+skinparam actorStyle awesome
+actor Profesor #transparent;line:cornflowerblue;line.bold;text:black
+actor Alumno #transparent;line:lightcoral;line.bold;text:black
+actor Administrador #transparent;line:teal;line.bold;text:black
+actor Tutor #transparent;line:darkmagenta;line.bold;text:black
+
+package Grupos {
+  usecase "Ver Historial del Estudiante" as CU8
+  usecase "Ver Reporte Académico" as CU9
+  usecase "Agregar Observación" as CU10
+}
+
+Profesor --> CU9
+Profesor --> CU10
+Alumno --> CU8
+Alumno --> CU9
+Tutor --> CU8
+Tutor --> CU9
+Administrador --> CU8
+Administrador --> CU9
+@enduml

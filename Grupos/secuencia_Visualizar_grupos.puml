@@ -1,0 +1,34 @@
+@startuml Visualizar Grupo
+
+actor Administrador
+actor Profesor
+
+participant "AsignacionGrupoVentana" as IG
+participant "ControlVisualizacionGrupo" as CVG
+participant "Grupo" as GR
+
+== Inicio ==
+Administrador -> IG : Accede al módulo Asignación de Grupo
+Profesor -> IG : Accede al módulo Asignación de Grupo
+
+== Solicitud de visualización ==
+Administrador -> IG : Selecciona opción "Visualizar grupos"
+Profesor -> IG : Selecciona opción "Visualizar grupos"
+
+IG -> CVG : solicitarListadoGrupos(actor)
+
+alt Actor es Administrador
+    CVG -> GR : obtenerTodosLosGrupos()
+else Actor es Profesor
+    CVG -> GR : obtenerGruposPorProfesor(idProfesor)
+end
+
+GR --> CVG : lista de grupos
+
+alt No hay grupos registrados
+    CVG -> IG : Mostrar mensaje "No existen grupos disponibles"
+else
+    CVG -> IG : Mostrar lista de grupos (nivel, grado, letra, profesor)
+end
+
+@enduml

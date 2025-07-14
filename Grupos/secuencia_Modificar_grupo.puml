@@ -1,0 +1,45 @@
+@startuml  Modificar Grupo
+
+actor Administrador
+participant "AsignacionGrupoVentana" as IG
+participant "ControlModificacionGrupo" as CMG
+participant "Grupo" as GR
+participant "Alumno" as AL
+participant "Profesor" as PR
+participant "Asignacion" as AS
+
+== Acceso ==
+Administrador -> IG : Accede al módulo Asignación de Grupo
+
+== Selección del grupo ==
+IG -> CMG : seleccionarGrupo(idGrupo)
+CMG -> GR : buscarGrupo(idGrupo)
+GR --> CMG : datos del grupo
+
+alt Grupo no encontrado
+    CMG -> IG : Mostrar "Grupo no encontrado"
+else
+    CMG -> IG : Mostrar datos actuales del grupo
+end
+
+== Modificación ==
+Administrador -> IG : Edita grupo (reasignar profesor, agregar/remover alumnos)
+
+IG -> CMG : enviarCambios(idGrupo, nuevosAlumnos, nuevosRemovidos, nuevoProfesor)
+
+alt Validar cambios
+    CMG -> AL : validarAlumnos(nuevosAlumnos, nuevosRemovidos)
+    CMG -> PR : validarDisponibilidadProfesor(nuevoProfesor)
+    
+    alt Conflicto en horarios o carga
+        CMG -> IG : Mostrar advertencia (conflicto horario o carga)
+    end
+end
+
+== Aplicar cambios ==
+CMG -> AS : actualizarAsignaciones(idGrupo, nuevosAlumnos, nuevosRemovidos, nuevoProfesor)
+
+== Confirmación ==
+CMG -> IG : Mostrar mensaje "Modificación exitosa"
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml Modificación de Calificación
+
+actor Profesor
+participant "VentanaCalificaciones" as VC
+participant "ControlCalificaciones" as CC
+participant "Grupo" as GR
+participant "Alumno" as AL
+participant "Calificacion" as CAL
+
+== Acceso ==
+Profesor -> VC : Accede al módulo de Calificaciones
+
+== Selección de grupo y alumno ==
+VC -> CC : seleccionarGrupo(grupo)
+CC -> GR : validarGrupoProfesor(grupo, profesor)
+GR --> CC : OK o No válido
+
+alt Grupo no pertenece al profesor
+    CC -> VC : Mostrar "Acceso denegado"
+else
+    VC -> CC : seleccionarAlumno(idAlumno)
+    CC -> CAL : obtenerCalificaciones(idAlumno, grupo)
+    CAL --> CC : calificaciones actuales
+
+    alt No hay calificaciones previas
+        CC -> VC : Mostrar "No hay calificación existente para modificar"
+    else
+        CC -> VC : Mostrar calificaciones actuales
+
+        == Modificación ==
+        Profesor -> VC : Edita calificación
+        VC -> CC : modificarCalificacion(idAlumno, nuevaCalificacion)
+
+        CC -> CAL : validarRango(nuevaCalificacion)
+        alt Rango inválido
+            CC -> VC : Mostrar "La calificación debe estar entre n-m"
+        else
+            CC -> VC : Solicitar confirmación
+            Profesor -> VC : Confirmar modificación
+
+            alt Confirmación cancelada
+                CC -> VC : Cancelar modificación
+            else Confirmación aceptada
+                CC -> CAL : actualizarCalificacion(idAlumno, nuevaCalificacion)
+                CC -> VC : Mostrar "Calificación actualizada con éxito"
+            end
+        end
+    end
+end
+
+@enduml
