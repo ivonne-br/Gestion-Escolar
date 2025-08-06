@@ -1,0 +1,344 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.18 (Homebrew)
+-- Dumped by pg_dump version 17.5
+
+-- Started on 2025-07-27 23:03:38 CST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3958 (class 0 OID 25230)
+-- Dependencies: 217
+-- Data for Name: administrador; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.administrador (id_admin, nombre, apellido_p, apellido_m, correo, id_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3956 (class 0 OID 25187)
+-- Dependencies: 215
+-- Data for Name: alumno; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.alumno (id_alumno, nombre, apellido_p, apellido_m, correo, curp, id_usuario, id_tutor) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3971 (class 0 OID 25380)
+-- Dependencies: 230
+-- Data for Name: asignaciongrupoalumno; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.asignaciongrupoalumno (id_alumno, id_grupo, id_ciclo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3963 (class 0 OID 25281)
+-- Dependencies: 222
+-- Data for Name: boleta; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.boleta (id_alumno, id_ciclo, calif_final_general, observaciones) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3964 (class 0 OID 25298)
+-- Dependencies: 223
+-- Data for Name: calificacionmateria; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.calificacionmateria (id_alumno, id_ciclo, id_materia, id_periodo, calif_final, observaciones, fecha_registro) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3967 (class 0 OID 25339)
+-- Dependencies: 226
+-- Data for Name: calificaciontarea; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.calificaciontarea (id_tarea, id_alumno, calificacion, observaciones, fecha_registro) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3952 (class 0 OID 25155)
+-- Dependencies: 211
+-- Data for Name: cicloescolar; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.cicloescolar (id_ciclo, nombre_ciclo, fecha_inicio, fecha_fin, es_actual) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3970 (class 0 OID 25370)
+-- Dependencies: 229
+-- Data for Name: foliopago; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.foliopago (folio, id_pago) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3954 (class 0 OID 25164)
+-- Dependencies: 213
+-- Data for Name: grupo; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.grupo (id_grupo, nivel, grado, letra, id_ciclo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3959 (class 0 OID 25242)
+-- Dependencies: 218
+-- Data for Name: materia; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.materia (id_materia, nombre, nivel, grado, especialidad) FROM stdin;
+ESP1	Español I	Primaria	1	Español
+MAT1	Matemáticas I	Primaria	1	Matemáticas
+ENS1	Exploración de la Naturaleza y la Sociedad I	Primaria	1	Ciencias
+FCE1	Formación Cívica y Ética I	Primaria	1	Formación Cívica y Ética
+ART1	Educación Artística I	Primaria	1	Artes
+EDU1	Educación Física I	Primaria	1	Educación Física
+ING1	Inglés I	Primaria	1	Inglés
+ESP2	Español II	Primaria	2	Español
+MAT2	Matemáticas II	Primaria	2	Matemáticas
+ENS2	Exploración de la Naturaleza y la Sociedad II	Primaria	2	Ciencias
+FCE2	Formación Cívica y Ética II	Primaria	2	Formación Cívica y Ética
+ART2	Educación Artística II	Primaria	2	Artes
+EDU2	Educación Física II	Primaria	2	Educación Física
+ING2	Inglés II	Primaria	2	Inglés
+ESP3	Español III	Primaria	3	Español
+MAT3	Matemáticas III	Primaria	3	Matemáticas
+CNA1	Ciencias Naturales I	Primaria	3	Ciencias
+EDV1	La Entidad donde Vivo	Primaria	3	Geografía
+FCE3	Formación Cívica y Ética III	Primaria	3	Formación Cívica y Ética
+ART3	Educación Artística III	Primaria	3	Artes
+EDU3	Educación Física III	Primaria	3	Educación Física
+ING3	Inglés III	Primaria	3	Inglés
+ESP4	Español IV	Primaria	4	Español
+MAT4	Matemáticas IV	Primaria	4	Matemáticas
+CNA2	Ciencias Naturales II	Primaria	4	Ciencias
+GEO1	Geografía I	Primaria	4	Geografía
+HIS1	Historia I	Primaria	4	Historia
+FCE4	Formación Cívica y Ética IV	Primaria	4	Formación Cívica y Ética
+ART4	Educación Artística IV	Primaria	4	Artes
+EDU4	Educación Física IV	Primaria	4	Educación Física
+ING4	Inglés IV	Primaria	4	Inglés
+ESP5	Español V	Primaria	5	Español
+MAT5	Matemáticas V	Primaria	5	Matemáticas
+CNA3	Ciencias Naturales III	Primaria	5	Ciencias
+GEO2	Geografía II	Primaria	5	Geografía
+HIS2	Historia II	Primaria	5	Historia
+FCE5	Formación Cívica y Ética V	Primaria	5	Formación Cívica y Ética
+ART5	Educación Artística V	Primaria	5	Artes
+EDU5	Educación Física V	Primaria	5	Educación Física
+ING5	Inglés V	Primaria	5	Inglés
+ESP6	Español VI	Primaria	6	Español
+MAT6	Matemáticas VI	Primaria	6	Matemáticas
+CNA4	Ciencias Naturales IV	Primaria	6	Ciencias
+GEO3	Geografía III	Primaria	6	Geografía
+HIS3	Historia III	Primaria	6	Historia
+FCE6	Formación Cívica y Ética VI	Primaria	6	Formación Cívica y Ética
+ART6	Educación Artística VI	Primaria	6	Artes
+EDU6	Educación Física VI	Primaria	6	Educación Física
+ING6	Inglés VI	Primaria	6	Inglés
+ESP7	Español I	Secundaria	1	Español
+MAT7	Matemáticas I	Secundaria	1	Matemáticas
+CIE1	Biología	Secundaria	1	Ciencias
+GEO4	Geografía de México y del Mundo	Secundaria	1	Geografía
+EDF7	Educación Física I	Secundaria	1	Educación Física
+ART7	Artes I	Secundaria	1	Artes
+TEC1	Tecnología I	Secundaria	1	Tecnología
+ING7	Inglés I	Secundaria	1	Inglés
+ESP8	Español II	Secundaria	2	Español
+MAT8	Matemáticas II	Secundaria	2	Matemáticas
+CIE2	Física	Secundaria	2	Ciencias
+HIS4	Historia I	Secundaria	2	Historia
+FCE7	Formación Cívica y Ética I	Secundaria	2	Formación Cívica y Ética
+EDF8	Educación Física II	Secundaria	2	Educación Física
+ART8	Artes II	Secundaria	2	Artes
+TEC2	Tecnología II	Secundaria	2	Tecnología
+ING8	Inglés II	Secundaria	2	Inglés
+ESP9	Español III	Secundaria	3	Español
+MAT9	Matemáticas III	Secundaria	3	Matemáticas
+CIE3	Química	Secundaria	3	Ciencias
+HIS5	Historia II	Secundaria	3	Historia
+FCE8	Formación Cívica y Ética II	Secundaria	3	Formación Cívica y Ética
+EDF9	Educación Física III	Secundaria	3	Educación Física
+ART9	Artes III	Secundaria	3	Artes
+TEC3	Tecnología III	Secundaria	3	Tecnología
+ING9	Inglés III	Secundaria	3	Inglés
+\.
+
+
+--
+-- TOC entry 3969 (class 0 OID 25357)
+-- Dependencies: 228
+-- Data for Name: pago; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.pago (id_pago, fecha_pago, monto, concepto, folio, id_alumno) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3962 (class 0 OID 25268)
+-- Dependencies: 221
+-- Data for Name: periodo; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.periodo (id_periodo, nombre, orden, id_ciclo, fecha_inicio, fecha_fin, estado) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3957 (class 0 OID 25218)
+-- Dependencies: 216
+-- Data for Name: profesor; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.profesor (id_profesor, nombre, apellido_p, apellido_m, correo, especializacion, id_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3960 (class 0 OID 25247)
+-- Dependencies: 219
+-- Data for Name: profesorgrupomateria; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.profesorgrupomateria (id_profesor, id_grupo, id_materia) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3966 (class 0 OID 25321)
+-- Dependencies: 225
+-- Data for Name: tarea; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.tarea (id_tarea, nombre, descripcion, fecha_entrega, id_materia, id_grupo) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3955 (class 0 OID 25175)
+-- Dependencies: 214
+-- Data for Name: tutor; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.tutor (id_tutor, nombre, apellido_p, apellido_m, correo, telefono, id_usuario) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3950 (class 0 OID 25149)
+-- Dependencies: 209
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: ivonne
+--
+
+COPY public.usuario (id_usuario, rol) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3987 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: alumno_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.alumno_id_seq', 1, false);
+
+
+--
+-- TOC entry 3988 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: cicloescolar_id_ciclo_seq; Type: SEQUENCE SET; Schema: public; Owner: ivonne
+--
+
+SELECT pg_catalog.setval('public.cicloescolar_id_ciclo_seq', 1, false);
+
+
+--
+-- TOC entry 3989 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: grupo_id_grupo_seq; Type: SEQUENCE SET; Schema: public; Owner: ivonne
+--
+
+SELECT pg_catalog.setval('public.grupo_id_grupo_seq', 1, false);
+
+
+--
+-- TOC entry 3990 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: pago_id_pago_seq; Type: SEQUENCE SET; Schema: public; Owner: ivonne
+--
+
+SELECT pg_catalog.setval('public.pago_id_pago_seq', 1, false);
+
+
+--
+-- TOC entry 3991 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: periodo_id_periodo_seq; Type: SEQUENCE SET; Schema: public; Owner: ivonne
+--
+
+SELECT pg_catalog.setval('public.periodo_id_periodo_seq', 1, false);
+
+
+--
+-- TOC entry 3992 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: profesor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.profesor_id_seq', 1, false);
+
+
+--
+-- TOC entry 3993 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: tarea_id_tarea_seq; Type: SEQUENCE SET; Schema: public; Owner: ivonne
+--
+
+SELECT pg_catalog.setval('public.tarea_id_tarea_seq', 1, false);
+
+
+--
+-- TOC entry 3994 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: tutor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.tutor_id_seq', 1, false);
+
+
+-- Completed on 2025-07-27 23:03:39 CST
+
+--
+-- PostgreSQL database dump complete
+--
+
