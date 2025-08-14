@@ -1,6 +1,33 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../models/AlumnoModel.php';
+
+echo '
+<head>
+    <meta charset="UTF-8">
+    <title>Listado - Alumnos</title>
+    <link rel="stylesheet" href="/GestionEscolar/public/css/estilo.css">
+    <link rel="stylesheet" href="/GestionEscolar/public/css/index_grupos.css">
+</head>
+';
+
+echo '
+<div class="header">
+    <img src="/GestionEscolar/public/img/logo_colegio.png" alt="Logo Colegio" class="header-logo">
+    <div class="header-text">
+        <div class="header-title">Colegio Abraham Lincoln</div>
+        <div class="header-subtitle">fundado en 1971</div>
+    </div>
+</div>
+<div class="usuario-info">
+    <div class="usuario-texto">'
+        . (isset($_SESSION['nombre_completo']) ? $_SESSION['nombre_completo'] : '') . '<br>' .
+        (isset($_SESSION['id_usuario']) ? $_SESSION['id_usuario'] : '') .
+    '</div>
+    <img src="/GestionEscolar/public/img/usuario_icono.png" alt="Perfil" class="usuario-icono">
+</div>
+';
 
 $db = new Database();
 $conn = $db->conectar();
@@ -21,23 +48,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die('Por favor completa todos los campos obligatorios para registrar el alumno.');
         }
 
+        if (!preg_match('/^TU\d+$/', $id_tutor)) {
+            die('El ID del tutor debe tener el formato correcto (por ejemplo, TU034).');
+        }
+
         $curp_pattern = '/^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]{2}$/i';
         if (!preg_match($curp_pattern, $curp)) {
             die('El CURP no tiene un formato válido.');
         }
 
         try {
-            $id = $alumnoModel->registrar($nombre, $apellido_p, $apellido_m, $curp, $id_tutor, $nivel, (int)$grado);
+            $id = $alumnoModel->registrar($nombre, $apellido_p, $apellido_m, $curp, $grado, $nivel, $id_tutor);
 
             if ($id) {
-                echo "<div style='padding: 1em; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; font-family: sans-serif; max-width: 500px; margin: 2em auto; text-align: center;'>
-                        ✅ Alumno registrado con éxito.<br>ID generado: <strong>$id</strong>
-                      </div>";
-                echo "<div style='text-align:center; margin-top: 1em;'>
-                        <a href='/GestionEscolar/public/alumnos/index'><button>⬅ Volver a Listado de Alumnos</button></a>
-                        <a href='/GestionEscolar/public/alumnos/formulario?id_tutor=$id_tutor'><button>➕ Agregar Otro Alumno para este Tutor</button></a>
-                        <a href='/GestionEscolar/public/tutores/index'><button>👨‍🏫 Ver Tutores</button></a>
-                      </div>";
+                echo '<div style="padding: 1em; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; font-family: sans-serif; max-width: 500px; margin: 2em auto; text-align: center;">
+                        ✅ Alumno registrado con éxito.<br>ID generado: <strong>' . htmlspecialchars($id) . '</strong>
+                      </div>';
+
+                echo '<div class="botones-acciones" style="display: flex; flex-direction: column; align-items: center; margin-top: 20px; gap: 15px;">
+                        <a href="/GestionEscolar/public/alumnos/index" class="boton-volver">🔙 Volver al listado de alumnos</a>
+                        <a href="/GestionEscolar/public/alumnos/formulario?id_tutor=' . urlencode($id_tutor) . '" class="boton-volver">➕ Agregar otro alumno para este tutor</a>
+                        <a href="/GestionEscolar/public/tutores/index" class="boton-volver">👨‍🏫 Ver tutores</a>
+                      </div>';
                 exit;
             } else {
                 throw new Exception("No se pudo registrar el alumno.");
@@ -82,6 +114,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($nombre === '' || $apellido_p === '' || $curp === '' || $id_tutor === '') {
                     die('Por favor completa todos los campos obligatorios para actualizar el alumno.');
+                }
+
+                if (!preg_match('/^TU\d+$/', $id_tutor)) {
+                    die('El ID del tutor debe tener el formato correcto (por ejemplo, TU034).');
                 }
 
                 $curp_pattern = '/^[A-Z]{4}\d{6}[HM][A-Z]{5}[0-9A-Z]{2}$/i';

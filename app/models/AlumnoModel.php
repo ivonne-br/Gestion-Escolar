@@ -6,16 +6,16 @@ class AlumnoModel {
     }
 
     // Registrar alumno
-    public function registrar($nombre, $ap, $am, $curp, $id_tutor, $nivel, $grado) {
-        $sql = "SELECT registrar_alumno(:nombre, :ap, :am, :curp, :tutor, :nivel, :grado)";
+    public function registrar($nombre, $ap, $am, $curp, $grado, $nivel, $id_tutor) {
+        $sql = "SELECT registrar_alumno(:nombre, :ap, :am, :curp, :grado, :nivel, :tutor)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':ap', $ap);
         $stmt->bindParam(':am', $am);
         $stmt->bindParam(':curp', $curp);
-        $stmt->bindParam(':tutor', $id_tutor);
+        $stmt->bindParam(':grado', $grado, PDO::PARAM_INT);
         $stmt->bindParam(':nivel', $nivel);
-        $stmt->bindParam(':grado', $grado);
+        $stmt->bindParam(':tutor', $id_tutor);
 
         if ($stmt->execute()) {
             return $stmt->fetchColumn();
@@ -27,7 +27,31 @@ class AlumnoModel {
 
     // Listar todos los alumnos
     public function listarTodos() {
-        $sql = "SELECT * FROM Alumno ORDER BY id_alumno";
+        $sql = "SELECT 
+                    a.usuario_id, 
+                    a.grado, 
+                    a.nivel, 
+                    a.tutor_id, 
+                    a.curp,
+                    a.id AS id_alumno, 
+                    u.nombre AS nombre_usuario, 
+                    u.apellido_paterno, 
+                    u.apellido_materno, 
+                    u.correo AS correo_usuario,
+                    g.id AS grupo_id, 
+                    g.grado AS grupo_grado, 
+                    g.letra, 
+                    g.nivel AS grupo_nivel,
+                    tut_user.nombre AS tutor_nombre, 
+                    tut_user.apellido_paterno AS tutor_apellido_paterno, 
+                    tut_user.apellido_materno AS tutor_apellido_materno
+                FROM Alumno a
+                JOIN Usuario u ON a.usuario_id = u.id
+                LEFT JOIN Alumno_Grupo ag ON ag.alumno_id = a.id
+                LEFT JOIN Grupo g ON g.id = ag.grupo_id
+                LEFT JOIN Tutor tut ON a.tutor_id::int = tut.id
+                LEFT JOIN Usuario tut_user ON tut.usuario_id = tut_user.id
+                ORDER BY a.id";
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

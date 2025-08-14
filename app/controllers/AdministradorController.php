@@ -7,15 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $apellido_p = $_POST['apellido_p'] ?? '';
     $apellido_m = $_POST['apellido_m'] ?? '';
 
-
     if (empty($nombre) || empty($apellido_p) || empty($apellido_m)) {
         die("Nombre y apellidos son obligatorios.");
     }
-// agregar verificación para evitar inyección SQL???
-    $nombre = htmlspecialchars($nombre, ENT_QUOTES, 'UTF-8');
-    $apellido_p = htmlspecialchars($apellido_p, ENT_QUOTES, 'UTF-8');
-    $apellido_m = htmlspecialchars($apellido_m, ENT_QUOTES, 'UTF-8');
-// ------------------
 
     $db = new Database();
     $conn = $db->conectar();
@@ -24,11 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $model->registrar($nombre, $apellido_p, $apellido_m);
 
     if ($id) {
-        echo "<p>Administrador registrado con ID: <strong>$id</strong></p>";
-        echo "<a href='/GestionEscolar/public/usuarios/form_actualizar_contrasena?id_usuario=" . urlencode($id) . "'>➡ Establecer contraseña</a>";
-        exit;
-        // echo "Administrador registrado con ID: $id";
+        echo "
+        <div style='padding: 1em; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; font-family: sans-serif; max-width: 500px; margin: 2em auto; text-align: center;'>
+            ✅ Administrador registrado con éxito.<br>ID generado: <strong>$id</strong>
+        </div>
+        <div style='text-align: center; margin-top: 20px;'>
+            <a href='/GestionEscolar/public/usuarios/form_actualizar_contrasena?id_usuario=" . urlencode($id) . "' class='btn-link' style='
+                display: inline-block;
+                padding: 10px 30px;
+                background-color: #2959AE;
+                color: white;
+                border-radius: 25px;
+                text-decoration: none;
+                font-size: 16px;
+                font-family: sans-serif;
+            '>Establecer contraseña</a>
+        </div>
+        ";
     } else {
-        echo "Error al registrar administrador.";
+        die("Error al registrar administrador.");
     }
 }

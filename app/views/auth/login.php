@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="/GestionEscolar/public/css/login.css">
 </head>
 <body>
-  <h2>Iniciar Sesión</h2>
-<form method="POST" action="/GestionEscolar/public/auth/procesar_login">
-    <label for="usuario">ID Usuario:</label><br>
-    <input type="text" name="usuario" id="usuario" required><br><br>
+  <div class="login-container">
+    <img src="/GestionEscolar/public/img/logo_colegio.png" alt="Logo Colegio" class="logo">
+    
+    <div class="titulo">Iniciar Sesión</div>
 
-    <label for="contrasena">Contraseña:</label><br>
-    <input type="password" name="contrasena" id="contrasena" required><br><br>
-
-    <button type="submit">Entrar</button>
-  </form>
+    <form method="POST" action="/GestionEscolar/public/auth/procesar_login">
+      <input type="text" name="usuario" placeholder="ID Usuario" required>
+      <input type="password" name="contrasena" placeholder="Contraseña" required>
+      <button type="submit">Ingresar</button>
+    </form>
+  </div>
 </body>
 </html>

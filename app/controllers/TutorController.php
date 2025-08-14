@@ -49,18 +49,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST['telefono']
         );
 
-        echo "<h2>Tutor registrado exitosamente</h2>";
-        echo "<p><strong>ID generado:</strong> $id_generado</p>";
-        echo "<p>";
-        echo "<a href='/GestionEscolar/public/tutores/index'><button>⬅ Volver a Listado Tutores</button></a> ";
-        echo "<a href='/GestionEscolar/public/tutores/formulario'><button>➕ Agregar Otro Tutor</button></a>";
-        echo "<a href='/GestionEscolar/public/alumnos/formulario?id_tutor=$id_generado'><button>👨‍🎓 Agregar Alumno</button></a>";
-        echo "</p>";
-        
+        echo '<!DOCTYPE html>
+  <html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Registro Exitoso</title>
+    <link rel="stylesheet" href="/GestionEscolar/public/css/estilo.css">
+    <link rel="stylesheet" href="/GestionEscolar/public/css/formulario_admin.css">
+  </head>
+  <body>';
+
+        echo '
+  <div style="max-width: 600px; margin: 2em auto; font-family: sans-serif;">
+    <div style="padding: 1em; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center; margin-bottom: 1.5em;">
+        ✅ Tutor registrado con éxito.<br>ID generado: <strong>' . htmlspecialchars($id_generado) . '</strong>
+    </div>
+    <div class="botones-registro" style="display: flex; gap: 1em; align-items: center;">
+      <a href="/GestionEscolar/public/tutores/index" class="boton-volver">⬅ Volver a Listado Tutores</a>
+      <a href="/GestionEscolar/public/tutores/formulario" class="boton-volver">+ Agregar Otro Tutor</a>
+      <a href="/GestionEscolar/public/alumnos/formulario?id_tutor=' . urlencode($id_generado) . '" class="boton-volver">👨‍🎓 Agregar Alumno</a>
+    </div>
+  </div>';
+
+        echo '</body></html>';
         exit;
 
     } catch (PDOException $e) {
-        echo "<p style='color:red;'>Error al registrar tutor: " . $e->getMessage() . "</p>";
+        echo "<p style='color:red;'>Error al registrar tutor: " . htmlspecialchars($e->getMessage()) . "</p>";
     }
 }
 

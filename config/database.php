@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'gestion_escolar';
+    private $db_name = 'gestion_escolar_nueva';
     private $username = 'ivonne';
     private $password = 'ajolote';
     public $conn;
@@ -18,7 +18,4 @@ class Database {
         return $this->conn;
     }
 }
-
-$database = new Database();
-$pdo = $database->conectar();
 ?>

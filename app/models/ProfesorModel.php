@@ -10,16 +10,15 @@ class ProfesorModel {
     public function listarProfesoresConAsignaciones($nivel = '', $materia = '', $estado = '') {
         $sql = "
             SELECT
-                p.id_profesor,
-                p.nombre,
-                p.apellido_p,
-                p.apellido_m,
+                p.id,
+                (u.nombre || ' ' || u.apellido_paterno || ' ' || u.apellido_materno) AS nombre_completo,
                 STRING_AGG(DISTINCT m.nombre, ', ') AS materias,
                 STRING_AGG(DISTINCT g.nivel || ' ' || g.grado || g.letra, ', ') AS grupos
             FROM Profesor p
-            LEFT JOIN ProfesorGrupoMateria pgm ON pgm.id_profesor = p.id_profesor
-            LEFT JOIN Materia m ON m.id_materia = pgm.id_materia
-            LEFT JOIN Grupo g ON g.id_grupo = pgm.id_grupo
+            JOIN Usuario u ON u.id = p.usuario_id
+            LEFT JOIN profesor_grupo_materia pgm ON pgm.profesor_id = p.id
+            LEFT JOIN Materia m ON m.id = pgm.materia_id
+            LEFT JOIN Grupo g ON g.id = pgm.grupo_id
             WHERE 1=1
         ";
 
@@ -37,8 +36,8 @@ class ProfesorModel {
 
         // Estado dinámico según si tiene grupo
         $sql .= "
-            GROUP BY p.id_profesor, p.nombre, p.apellido_p, p.apellido_m
-            ORDER BY p.apellido_p, p.apellido_m, p.nombre
+            GROUP BY p.id, u.nombre, u.apellido_paterno, u.apellido_materno
+            ORDER BY u.nombre, u.apellido_paterno, u.apellido_materno
         ";
 
         $stmt = $this->pdo->prepare($sql);
@@ -55,7 +54,7 @@ class ProfesorModel {
 
     // Detalle de un profesor por ID
     public function obtenerPorId($id) {
-        $sql = "SELECT id_profesor, nombre, apellido_p, apellido_m, correo, especialidad FROM Profesor WHERE id_profesor = :id";
+        $sql = "SELECT id, nombre, apellido_p, apellido_m, correo, especialidad FROM Profesor WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
@@ -71,10 +70,10 @@ class ProfesorModel {
             g.grado,
             g.nivel,
             m.nombre AS materia
-        FROM ProfesorGrupoMateria pgm
-        INNER JOIN Grupo g ON g.id_grupo = pgm.id_grupo
-        INNER JOIN Materia m ON m.id_materia = pgm.id_materia
-        WHERE pgm.id_profesor = :id_profesor
+        FROM profesor_grupo_materia pgm
+        INNER JOIN Grupo g ON g.id_grupo = pgm.grupo_id
+        INNER JOIN Materia m ON m.id_materia = pgm.materia_id
+        WHERE pgm.profesor_id = :id_profesor
     ";
 
     $stmt = $this->pdo->prepare($sql);
@@ -97,7 +96,7 @@ class ProfesorModel {
 
     // Eliminar profesor
     public function eliminar($id) {
-        $sql = "DELETE FROM Profesor WHERE id_profesor = :id";
+        $sql = "DELETE FROM Profesor WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
@@ -111,7 +110,7 @@ class ProfesorModel {
                     apellido_p = :ap,
                     apellido_m = :am,
                     correo = :correo
-                WHERE id_profesor = :id";
+                WHERE id = :id";
 
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([
@@ -126,16 +125,16 @@ class ProfesorModel {
     public function obtenerGruposYMateriasPorProfesor($idProfesor) {
         $sql = "
             SELECT 
-                pgm.id_grupo,
+                pgm.grupo_id,
                 g.nivel,
                 g.grado,
                 g.letra AS nombre,
-                pgm.id_materia,
+                pgm.materia_id,
                 m.nombre AS materia
-            FROM ProfesorGrupoMateria pgm
-            INNER JOIN Grupo g ON g.id_grupo = pgm.id_grupo
-            INNER JOIN Materia m ON m.id_materia = pgm.id_materia
-            WHERE pgm.id_profesor = :id_profesor
+            FROM profesor_grupo_materia pgm
+            INNER JOIN Grupo g ON g.id_grupo = pgm.grupo_id
+            INNER JOIN Materia m ON m.id_materia = pgm.materia_id
+            WHERE pgm.profesor_id = :id_profesor
         ";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([':id_profesor' => $idProfesor]);
@@ -146,8 +145,8 @@ class ProfesorModel {
         $sql = "
             SELECT t.id_tarea, t.nombre, t.fecha_entrega
             FROM Tarea t
-            JOIN ProfesorGrupoMateria pgm ON pgm.id_grupo = t.id_grupo AND pgm.id_materia = t.id_materia
-            WHERE pgm.id_profesor = :id_profesor
+            JOIN profesor_grupo_materia pgm ON pgm.grupo_id = t.id_grupo AND pgm.materia_id = t.id_materia
+            WHERE pgm.profesor_id = :id_profesor
             ORDER BY t.fecha_entrega DESC
         ";
         $stmt = $this->pdo->prepare($sql);

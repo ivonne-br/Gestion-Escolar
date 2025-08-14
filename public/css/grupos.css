@@ -1,0 +1,29 @@
+/* Dashboard Administradores > grupos */
+/* Panel de menú distribuido en 2 columnas */
+.menu-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding: 180px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menu-opcion {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #2959AE;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.menu-opcion:hover {
+  background-color: #e1eaff;
+  transform: translateY(-5px);
+}
+

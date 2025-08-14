@@ -15,6 +15,8 @@ $datos = $model->buscarUsuario($usuario);
 if ($datos && password_verify($contrasena, $datos['contrasena'])) {
     $_SESSION['usuario'] = $usuario;
     $_SESSION['rol'] = $datos['rol'];
+    $_SESSION['nombre_completo'] = $datos['nombre'] . ' ' . $datos['apellido_paterno'] . ' ' . $datos['apellido_materno'];
+    $_SESSION['id_usuario'] = $datos['id'];
 
     // Redirigir según el rol
     switch ($datos['rol']) {

@@ -1,0 +1,55 @@
+.formulario-contenedor {
+    padding: 100px 40px 40px 40px;
+    text-align: center;
+}
+
+h2 {
+    color: #2959AE;
+    margin-bottom: 20px;
+}
+
+.formulario-grupo {
+    background-color: #fff;
+    padding: 20px;
+    display: inline-block;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.formulario-grupo label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.formulario-grupo select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+
+.boton-filtrar {
+    background-color: #2959AE;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.boton-volver {
+    display: inline-block;
+    margin-top: 20px;
+    color: #2959AE;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 8px 16px;
+    border-radius: 6px;
+}
+
+.boton-volver:hover,
+.boton-filtrar:hover {
+    opacity: 0.9;
+}

@@ -1,0 +1,112 @@
+body {
+  font-family: sans-serif;
+  background-color: #f2f2f2;
+  padding: 60px 40px 40px 40px;
+}
+
+h2 {
+  text-align: center;
+  color: #2959AE;
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+  text-align: center;
+}
+
+label {
+  margin-right: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+select {
+  margin-right: 15px;
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 18px;
+}
+
+button, a {
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+th {
+  background-color: #2959AE;
+  color: white;
+  padding: 10px;
+}
+
+td {
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+a[href*="editar"], a[href*="detalle"] button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2959AE;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a[href*="detalle"] button {
+  background-color: #3273dc;
+}
+
+a[href*="editar"]:hover,
+a[href*="detalle"] button:hover {
+  opacity: 0.9;
+}
+
+.formulario-filtro > * {
+  margin-right: 10px;
+}
+
+a[href*="formulario"],
+a.boton-volver {
+  display: inline-block;
+  background-color: #2959AE;
+  color: white;
+  padding: 10px 18px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
+a[href*="formulario"]:hover,
+a.boton-volver:hover {
+  background-color: #1f4c8f;
+}
+
+.botones-acciones {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 1px;
+}

@@ -1,0 +1,43 @@
+
+/* Contenedor del panel de menú con distribución centrada */
+.menu-panel {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 120px;
+}
+
+/* Cada opción de menú estilo tarjeta moderna */
+.menu-opcion {
+  flex: 1 1 200px;
+  height: 150px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2959AE;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.menu-opcion:hover {
+  background-color: #e1eaff;
+  transform: scale(1.05);
+}
+
+/* Main panel with flex layout for central alignment */
+.menu-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  padding: 80px 20px;
+  min-height: 80vh;
+}
